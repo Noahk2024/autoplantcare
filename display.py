@@ -1,6 +1,9 @@
 from PIL import Image, ImageDraw, ImageFont
 import digitalio
 import board
+from plant_monitor import PlantMonitor
+from time import sleep
+pm = PlantMonitor()
 # SPDX-FileCopyrightText: 2021 ladyada for Adafruit Industries
 # SPDX-License-Identifier: MIT
 
@@ -64,26 +67,38 @@ draw.rectangle((0, 0, width, height), outline=0, fill=(142, 226, 191))
 
 
 sunnyimg = Image.open("sunny.png", "r")
-mooonimg = Image.open("moon.png", "r")
+moonimg = Image.open("moon.png", "r")
 rainyimg = Image.open("rainy.png", "r")
 backim = image.copy()
-backim.paste(sunnyimg, (0, 50), sunnyimg)
+backim.paste(moonimg, (0, 50), moonimg)
 
 #wetness_field = str(pm.get_wetness())
 #temp_c_field = str(pm.get_temp())
 #humidity_field = str(pm.get_humidity())
-wetness_field = "39"
-temp_c_field = "24.33"
-humidity_field = "35.02"
-
-
-d1 = ImageDraw.Draw(backim)
-d2 = ImageDraw.Draw(backim)
-d3 = ImageDraw.Draw(backim)
-
+#wetness_field = "39"
+#temp_c_field = "24.33"
+#humidity_field = "35.02"
 font=ImageFont.truetype("arial.ttf", size = 25)
-d1.text((110, 50), f"Wetness%:\n{wetness_field}", (255, 0, 0), font)
-d2.text((110, 100), f"Temp°C:\n{temp_c_field}", (0, 255, 0), font)
-d3.text((110, 150), f"Humidity%:\n{humidity_field}", (0, 0, 255), font)
 
-disp.display(backim)
+while(True):
+    
+    wetness_field = str(pm.get_wetness())
+    temp_c_field = str(pm.get_temp())
+    humidity_field = str(pm.get_humidity())
+     
+    if int(wetness_field) < 50:
+        image = backim
+        backim = image.copy()
+        backim.paste(rainyimg, (0, 50), rainyimg)
+    else:
+        image = backim
+        backim = image.copy()
+        backim.paste(moonimg, (0, 50), moonimg)
+    d1 = ImageDraw.Draw(backim)
+    d2 = ImageDraw.Draw(backim)
+    d3 = ImageDraw.Draw(backim)
+    d1.text((110, 50), f"Wetness%:\n{wetness_field}", (255, 0, 0), font)
+    d2.text((110, 100), f"Temp°C:\n{temp_c_field}", (0, 255, 0), font)
+    d3.text((110, 150), f"Humidity%:\n{humidity_field}", (0, 0, 255), font)
+    disp.display(backim)
+    sleep(2)
