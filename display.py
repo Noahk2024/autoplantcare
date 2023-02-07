@@ -87,11 +87,11 @@ while(True):
     humidity_field = str(pm.get_humidity())
      
     if float(wetness_field) < 50:
-        image = backim
+        #image = backim
         backim = image.copy()
         backim.paste(rainyimg, (0, 50), rainyimg)
     else:
-        image = backim
+        #image = backim
         backim = image.copy()
         backim.paste(moonimg, (0, 50), moonimg)
     d1 = ImageDraw.Draw(backim)
