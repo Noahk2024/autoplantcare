@@ -86,7 +86,7 @@ while(True):
     temp_c_field = str(pm.get_temp())
     humidity_field = str(pm.get_humidity())
      
-    if int(wetness_field) < 50:
+    if float(wetness_field) < 50:
         image = backim
         backim = image.copy()
         backim.paste(rainyimg, (0, 50), rainyimg)
@@ -100,5 +100,5 @@ while(True):
     d1.text((110, 50), f"Wetness%:\n{wetness_field}", (255, 0, 0), font)
     d2.text((110, 100), f"Temp°C:\n{temp_c_field}", (0, 255, 0), font)
     d3.text((110, 150), f"Humidity%:\n{humidity_field}", (0, 0, 255), font)
-    disp.Image(backim)
+    disp.image(backim)
     sleep(2)
