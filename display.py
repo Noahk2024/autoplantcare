@@ -1,5 +1,6 @@
 from PIL import Image, ImageDraw, ImageFont
 import digitalio
+import os
 import board
 from plant_monitor import PlantMonitor
 from time import sleep
@@ -94,6 +95,8 @@ while(True):
         #image = backim
         backim = image.copy()
         backim.paste(moonimg, (0, 50), moonimg)
+    #os.system(sudo uhubctl -l 1-1 -p 2 -a off)
+    #os.system(sudo uhubctl -l 1-1 -p 2 -a on)
     d1 = ImageDraw.Draw(backim)
     d2 = ImageDraw.Draw(backim)
     d3 = ImageDraw.Draw(backim)
