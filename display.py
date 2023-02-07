@@ -78,7 +78,7 @@ backim.paste(moonimg, (0, 50), moonimg)
 #wetness_field = "39"
 #temp_c_field = "24.33"
 #humidity_field = "35.02"
-font=ImageFont.truetype("arial.ttf", size = 25)
+font=ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", size = 25)
 
 while(True):
     
@@ -100,5 +100,5 @@ while(True):
     d1.text((110, 50), f"Wetness%:\n{wetness_field}", (255, 0, 0), font)
     d2.text((110, 100), f"Temp°C:\n{temp_c_field}", (0, 255, 0), font)
     d3.text((110, 150), f"Humidity%:\n{humidity_field}", (0, 0, 255), font)
-    disp.display(backim)
+    disp.Image(backim)
     sleep(2)
