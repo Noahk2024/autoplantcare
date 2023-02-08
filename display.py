@@ -4,6 +4,9 @@ import os
 import board
 from plant_monitor import PlantMonitor
 from time import sleep
+from datetime import datetime
+
+
 pm = PlantMonitor()
 # SPDX-FileCopyrightText: 2021 ladyada for Adafruit Industries
 # SPDX-License-Identifier: MIT
@@ -82,6 +85,9 @@ backim.paste(moonimg, (0, 50), moonimg)
 font=ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", size = 25)
 
 while(True):
+    now = datetime.now()
+    current_time = now.strftime("%H:%M:%S")
+    currhour = int("".join(list(current_time)[:2]))
     
     wetness_field = str(pm.get_wetness())
     temp_c_field = str(pm.get_temp())
