@@ -86,13 +86,18 @@ font=ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", size 
 
 while(True):
     now = datetime.now()
-    current_time = now.strftime("%H:%M:%S")
-    currhour = int("".join(list(current_time)[:2]))
+    current_time = now.hour
     
     wetness_field = str(pm.get_wetness())
     temp_c_field = str(pm.get_temp())
     humidity_field = str(pm.get_humidity())
-     
+    if (current_time > 5 && current_time < 20): 
+        os.system(sudo uhubctl -l 1-1 -p 2 -a on) #Turns on LED lights
+        backim = image.copy()
+        backim.paste(sunnyimg, (0, 50), sunnyimg)
+        sleep(20) #Pause 20 seconds
+    else:
+        os.system(sudo uhubctl -l 1-1 -p 2 -a off) #Tuns off LED lights
     if float(wetness_field) < 50:
         #image = backim
         backim = image.copy()
