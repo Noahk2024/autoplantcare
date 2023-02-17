@@ -34,7 +34,8 @@ from adafruit_rgb_display import ssd1331  # pylint: disable=unused-import
 cs_pin = digitalio.DigitalInOut(board.CE0)
 dc_pin = digitalio.DigitalInOut(board.D25)
 reset_pin = digitalio.DigitalInOut(board.D24)
-
+motor = digitalio.DigitalInOut(board.D36)
+motor.direction = digitalio.Direction.OUTPUT
 # Config for display baudrate (default max is 24mhz):
 BAUDRATE = 24000000
 
@@ -84,6 +85,7 @@ backim.paste(moonimg, (0, 50), moonimg)
 #humidity_field = "35.02"
 font=ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", size = 25)
 
+motor.value = False
 while(True):
     now = datetime.now()
     current_time = now.hour
@@ -102,6 +104,7 @@ while(True):
         #image = backim
         backim = image.copy()
         backim.paste(rainyimg, (0, 50), rainyimg)
+        motor.value = True
     else:
         #image = backim
         backim = image.copy()
