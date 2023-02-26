@@ -5,7 +5,7 @@ import board
 from plant_monitor import PlantMonitor
 from time import sleep
 from datetime import datetime
-
+import RPi.GPIO as GPIO 
 
 pm = PlantMonitor()
 # SPDX-FileCopyrightText: 2021 ladyada for Adafruit Industries
@@ -34,8 +34,8 @@ from adafruit_rgb_display import ssd1331  # pylint: disable=unused-import
 cs_pin = digitalio.DigitalInOut(board.CE0)
 dc_pin = digitalio.DigitalInOut(board.D25)
 reset_pin = digitalio.DigitalInOut(board.D24)
-motor = digitalio.DigitalInOut(board.D36)
-motor.direction = digitalio.Direction.OUTPUT
+#motor = digitalio.DigitalInOut(board.D36)
+#motor.direction = digitalio.Direction.OUTPUT
 # Config for display baudrate (default max is 24mhz):
 BAUDRATE = 24000000
 
@@ -85,26 +85,42 @@ backim.paste(moonimg, (0, 50), moonimg)
 #humidity_field = "35.02"
 font=ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", size = 25)
 
-motor.value = False
+#GPIO.setup(12, GPIO.OUT, initial=1)
+
+led = digitalio.DigitalInOut(board.D12)
+led.direction = digitalio.Direction.OUTPUT
+#led.value = True
+#sleep(4)
+led.value = False
+
+#motor.value = False
 while(True):
+   # led.value = True
+   # sleep(4)
+   # led.value = False
     now = datetime.now()
     current_time = now.hour
-    
     wetness_field = str(pm.get_wetness())
     temp_c_field = str(pm.get_temp())
     humidity_field = str(pm.get_humidity())
-    if (current_time > 5 && current_time < 20): 
-        os.system(sudo uhubctl -l 1-1 -p 2 -a on) #Turns on LED lights
-        backim = image.copy()
-        backim.paste(sunnyimg, (0, 50), sunnyimg)
-        sleep(20) #Pause 20 seconds
-    else:
-        os.system(sudo uhubctl -l 1-1 -p 2 -a off) #Tuns off LED lights
-    if float(wetness_field) < 50:
+   # if (current_time > 5 and current_time < 20):
+        #  os.system(sudo uhubctl -l 1-1 -p 2 -a on) #Turns on LED lights
+       # backim = image.copy()
+      #  print(".")
+     #   backim.paste(sunnyimg, (0, 50), sunnyimg)
+    #    sleep(20) #Pause 20 seconds
+#    else:
+    print(f"Wetness: {wetness_field} \t Temperature: {temp_c_field} \t Humidity: {humidity_field}")
+      #  os.system(sudo uhubctl -l 1-1 -p 2 -a off) #Tuns off LED lights
+    if float(wetness_field) < 40:
         #image = backim
+        led.value = True
+        sleep(4)
+        led.value = False
+        sleep(15)
         backim = image.copy()
         backim.paste(rainyimg, (0, 50), rainyimg)
-        motor.value = True
+ #       motor.value = True
     else:
         #image = backim
         backim = image.copy()
@@ -115,7 +131,7 @@ while(True):
     d2 = ImageDraw.Draw(backim)
     d3 = ImageDraw.Draw(backim)
     d1.text((110, 50), f"Wetness%:\n{wetness_field}", (255, 0, 0), font)
-    d2.text((110, 100), f"Temp°C:\n{temp_c_field}", (0, 255, 0), font)
+    d2.text((110, 100), f"Temp°C:\n{temp_c_field}", (255, 255, 80), font)
     d3.text((110, 150), f"Humidity%:\n{humidity_field}", (0, 0, 255), font)
     disp.image(backim)
     sleep(2)

@@ -11,7 +11,6 @@ class PlantMonitor:
     delay_period = 0.1
 
     def __init__(self):
-         print("hit")
          self.ser = serial.Serial("/dev/serial0", 9600)
 
     def get_wetness(self):
