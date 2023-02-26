@@ -74,6 +74,7 @@ while(True):
         d2.text((110, 100), f"Temp°C:\n{temp_c_field}", (255, 255, 80), font)
         d3.text((110, 150), f"Humidity%:\n{humidity_field}", (0, 0, 255), font)
         disp.image(backim)
+        sleep(2)
         motor.value = True
         sleep(4)
         motor.value = False
